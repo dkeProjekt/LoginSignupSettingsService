@@ -17,23 +17,19 @@ def signup():
     email = request.json.get("email")
     username = request.json.get("username")
     password = request.json.get("password")
-    if signup(email, username, password):
-        return jsonify({'signup_successful': True, 'username': username, 'password': password})
-    else:
-        return jsonify({'signup_successful': False, 'username': username, 'error': "Username already taken!"})
+    follow_id = request.json.get("id")
 
-
-def signup(email, username, password):
     client = MongoClient(
         "mongodb+srv://Adri25:adri1234@cluster0.taxsc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
     database = client['PRDKE']
     collection = database['UserData']
     user = collection.find_one({"name": username})
     if user is not None:
-        return False
-    new_user = {"name": username, "password": password, "registration_date": str(date.today()), "email": email}
-    collection.insert_one(new_user)
-    return True
+        return jsonify({'signup_successful': False, 'username': username, 'error': "Username already taken!"})
+    else:
+        new_user = {"name": username, "password": password, "email": email, "follow_id": follow_id, "registration_date": str(date.today())}
+        collection.insert_one(new_user)
+    return jsonify({'signup_successful': True, 'username': username, 'id': follow_id})
 
 
 if __name__ == '__main__':

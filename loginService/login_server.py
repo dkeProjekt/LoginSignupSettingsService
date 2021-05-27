@@ -23,21 +23,16 @@ def login():
         abort(400)
     username = request.json.get("username")
     password = request.json.get("password")
-    if check_user_data(username, password):
-        return jsonify({'login_successful': True, 'username': username, 'password': password})
-    else:
-        return jsonify({'login_successful': False, 'username': username, 'error': "Invalid username or password!"})
 
-
-def check_user_data(username, password):
     client = MongoClient(
         "mongodb+srv://Adri25:adri1234@cluster0.taxsc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
     database = client['PRDKE']
     collection = database['UserData']
     user = collection.find_one({"name": username})
     if user is None or user["password"] != password:
-        return False
-    return True
+        return jsonify({'login_successful': False, 'username': username, 'error': "Invalid username or password!"})
+    else:
+        return jsonify({'login_successful': True, 'username': username, 'id': user['follow_id']})
 
 
 if __name__ == '__main__':
