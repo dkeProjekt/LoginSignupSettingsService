@@ -15,12 +15,11 @@ def get_personal_data():
     if not request.json:
         abort(400)
     username = request.json.get("username")
-    follow_id = request.json.get("id")
     client = MongoClient(
         "mongodb+srv://Adri25:adri1234@cluster0.taxsc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
     database = client['PRDKE']
     collection = database['UserData']
-    user = collection.find_one({"name": username, "follow_id": follow_id})
+    user = collection.find_one({"name": username})
     if user is None:
         return jsonify({'get_data_successful': False, 'username': username, 'error': "Something went wrong!"})
     return jsonify({'get_data_successful': True, 'username': username, 'email': user["email"], 'registration_date': user['registration_date']})

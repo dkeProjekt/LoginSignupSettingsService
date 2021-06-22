@@ -7,16 +7,6 @@ app = Flask(__name__)
 CORS(app, support_credentials=True)
 
 
-@app.route('/get_test', methods=['GET'])
-def get_test():
-    return "hallo get"
-
-
-@app.route('/post_test', methods=['POST'])
-def post_test():
-    return "hallo post"
-
-
 @app.route('/login', methods=['POST'])
 def login():
     if not request.json:
@@ -32,7 +22,7 @@ def login():
     if user is None or user["password"] != password:
         return jsonify({'login_successful': False, 'username': username, 'error': "Invalid username or password!"})
     else:
-        return jsonify({'login_successful': True, 'username': username, 'id': user['follow_id']})
+        return jsonify({'login_successful': True, 'username': username})
 
 
 if __name__ == '__main__':
