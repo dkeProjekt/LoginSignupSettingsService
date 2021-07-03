@@ -14,8 +14,8 @@ def login():
     username = request.json.get("username")
     password = request.json.get("password")
 
-    client = MongoClient(
-        "mongodb+srv://Adri25:adri1234@cluster0.taxsc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+    # client = MongoClient("mongodb+srv://Adri25:adri1234@cluster0.taxsc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+    client = MongoClient("localhost", 27017)
     database = client['PRDKE']
     collection = database['UserData']
     user = collection.find_one({"name": username})

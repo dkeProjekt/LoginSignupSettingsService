@@ -15,8 +15,8 @@ def get_personal_data():
     if not request.json:
         abort(400)
     username = request.json.get("username")
-    client = MongoClient(
-        "mongodb+srv://Adri25:adri1234@cluster0.taxsc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+    # client = MongoClient("mongodb+srv://Adri25:adri1234@cluster0.taxsc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+    client = MongoClient("localhost", 27017)
     database = client['PRDKE']
     collection = database['UserData']
     user = collection.find_one({"name": username})
@@ -40,8 +40,8 @@ def change_password():
 
 
 def change_password(username, password_old, password_new):
-    client = MongoClient(
-        "mongodb+srv://Adri25:adri1234@cluster0.taxsc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+    # client = MongoClient("mongodb+srv://Adri25:adri1234@cluster0.taxsc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+    client = MongoClient("localhost", 27017)
     database = client['PRDKE']
     collection = database['UserData']
     user = collection.find_one({"name": username})
