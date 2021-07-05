@@ -15,14 +15,14 @@ def get_personal_data():
     if not request.json:
         abort(400)
     username = request.json.get("username")
-    # client = MongoClient("mongodb+srv://Adri25:adri1234@cluster0.taxsc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+
     client = MongoClient("localhost", 27017)
     database = client['PRDKE']
     collection = database['UserData']
     user = collection.find_one({"name": username})
     if user is None:
-        return jsonify({'get_data_successful': False, 'username': username, 'error': "Something went wrong!"})
-    return jsonify({'get_data_successful': True, 'username': username, 'email': user["email"], 'registration_date': user['registration_date']})
+        return jsonify({'get_data_successful': False, 'username': username, 'email': '', 'registration_date': '', 'error': "Something went wrong!"})
+    return jsonify({'get_data_successful': True, 'username': username, 'email': user["email"], 'registration_date': user['registration_date'], 'error': ''})
 
 
 @app.route('/change_password', methods=['POST'])
@@ -34,13 +34,12 @@ def change_password():
     password_new = request.json.get("password_new")
     success, error = change_password(username, password_old, password_new)
     if success:
-        return jsonify({'change_password_successful': True, 'username': username, 'password_new': password_new})
+        return jsonify({'change_password_successful': True, 'username': username, 'error': ''})
     else:
         return jsonify({'change_password_successful': False, 'username': username, 'error': error})
 
 
 def change_password(username, password_old, password_new):
-    # client = MongoClient("mongodb+srv://Adri25:adri1234@cluster0.taxsc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
     client = MongoClient("localhost", 27017)
     database = client['PRDKE']
     collection = database['UserData']
